@@ -1,0 +1,605 @@
+/* ==========================================================================
+   Whimsical Assembly Line Effects & Animations
+   Direction 2: The Clockwork Toy Factory for Ziki.dev
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. The Clockwork Gears
+   -------------------------------------------------------------------------- */
+:root {
+  --gear-speed: 12s;
+  --conveyor-speed: 18s;
+}
+
+.gear-assembly {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.85;
+}
+
+.gear-assembly-top-right {
+  top: -24px;
+  right: -24px;
+  width: 140px;
+  height: 140px;
+}
+
+.gear-assembly-hero {
+  top: 15px;
+  right: 25px;
+  width: 120px;
+  height: 120px;
+}
+
+.whimsical-gear {
+  position: absolute;
+  border-radius: 50%;
+  transform-origin: center center;
+  animation: spinGear var(--gear-speed) linear infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+}
+
+.whimsical-gear-reverse {
+  animation: spinGearReverse calc(var(--gear-speed) * 0.75) linear infinite;
+}
+
+.gear-lg {
+  width: 80px;
+  height: 80px;
+  top: 0;
+  right: 0;
+}
+
+.gear-md {
+  width: 52px;
+  height: 52px;
+  top: 48px;
+  right: 56px;
+}
+
+.gear-sm {
+  width: 34px;
+  height: 34px;
+  top: 18px;
+  right: 68px;
+}
+
+@keyframes spinGear {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinGearReverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+/* --------------------------------------------------------------------------
+   2. Factory Speed Dial & Swarm Controller
+   -------------------------------------------------------------------------- */
+.factory-controller {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  margin: 0 auto 28px;
+  width: fit-content;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 15;
+}
+
+.controller-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.controller-label .pulse-cog {
+  display: inline-block;
+  animation: spinGear 3s linear infinite;
+}
+
+.swarm-slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.swarm-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 140px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.swarm-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--coin-gold);
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 10px var(--coin-gold);
+  cursor: grab;
+  transition: transform 0.15s var(--ease-spring);
+}
+
+.swarm-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+}
+
+.swarm-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--coin-gold);
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 10px var(--coin-gold);
+  cursor: grab;
+}
+
+.agent-count-badge {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--coin-gold);
+  background: rgba(250, 204, 21, 0.15);
+  border: 1px solid rgba(250, 204, 21, 0.4);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  min-width: 95px;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   3. The Conveyor Belt Strip
+   -------------------------------------------------------------------------- */
+.conveyor-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background: var(--conveyor-belt);
+  border-radius: 14px 14px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: none;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.conveyor-roller {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: repeating-linear-gradient(
+    0deg,
+    #334155,
+    #334155 4px,
+    #1e293b 4px,
+    #1e293b 8px
+  );
+  z-index: 2;
+}
+
+.conveyor-roller-left {
+  left: 0;
+  border-right: 2px solid #0f172a;
+}
+
+.conveyor-roller-right {
+  right: 0;
+  border-left: 2px solid #0f172a;
+}
+
+.conveyor-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  animation: scrollConveyor var(--conveyor-speed) linear infinite;
+}
+
+@keyframes scrollConveyor {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.conveyor-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #ffffff;
+  white-space: nowrap;
+  user-select: none;
+  transition: transform 0.2s var(--ease-spring), background 0.2s ease;
+}
+
+.conveyor-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.conveyor-item .crate-icon {
+  font-size: 0.95rem;
+}
+
+.conveyor-item .badge-spec {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   4. Clockwork Agent Mascots (.clockwork-bot)
+   -------------------------------------------------------------------------- */
+.clockwork-bot {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s var(--ease-spring);
+}
+
+.bot-winding-key {
+  transform-origin: bottom center;
+  animation: turnKey 4s linear infinite;
+}
+
+@keyframes turnKey {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.bot-body-wrap {
+  animation: botHover 3s ease-in-out infinite;
+}
+
+@keyframes botHover {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.clockwork-bot:hover {
+  transform: scale(1.18);
+}
+
+.clockwork-bot:active,
+.clockwork-bot.bot-jumping {
+  animation: botJump 0.6s var(--ease-spring) forwards;
+}
+
+@keyframes botJump {
+  0% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-20px) scale(1.15) rotate(-6deg); }
+  60% { transform: translateY(-10px) scale(0.95) rotate(4deg); }
+  100% { transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+/* --------------------------------------------------------------------------
+   5. The Mechanical "Stamp of Approval" Arm & Stamp Mark
+   -------------------------------------------------------------------------- */
+.stamp-machine-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.stamp-piston-arm {
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  width: 120px;
+  height: 240px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: top 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stamp-piston-arm.slamming {
+  top: 40px;
+}
+
+.stamp-arm-rod {
+  width: 14px;
+  height: 160px;
+  background: linear-gradient(90deg, #64748b, #94a3b8, #475569);
+  border-radius: 4px;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5), 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.stamp-arm-cushion {
+  width: 44px;
+  height: 18px;
+  background: #334155;
+  border-radius: 6px;
+  margin-top: -4px;
+}
+
+.stamp-arm-head {
+  width: 90px;
+  height: 38px;
+  background: linear-gradient(180deg, #d97706, #b45309);
+  border-radius: 8px;
+  border: 2px solid #fef08a;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* The Inked Stamp on the Task Row */
+.ink-stamp-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 2px solid #16a34a;
+  border-radius: 6px;
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.1);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(-3deg) scale(0);
+  opacity: 0;
+  animation: slamStamp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.4) forwards;
+  box-shadow: 0 0 12px rgba(22, 163, 74, 0.3);
+}
+
+@keyframes slamStamp {
+  0% { transform: scale(2.5) rotate(15deg); opacity: 0; }
+  60% { transform: scale(0.9) rotate(-4deg); opacity: 1; }
+  80% { transform: scale(1.08) rotate(-2deg); }
+  100% { transform: scale(1) rotate(-3deg); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   6. Tactile Coin Dispenser (For the "Earn" card)
+   -------------------------------------------------------------------------- */
+.coin-dispenser-trigger {
+  position: relative;
+  cursor: pointer;
+}
+
+.brass-coin-drop {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fef08a, #facc15, #ca8a04);
+  border: 2px solid #a16207;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: #78350f;
+  box-shadow: 0 6px 16px rgba(202, 138, 4, 0.4);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 20;
+}
+
+.brass-coin-drop.dropping {
+  animation: dropCoin 0.75s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes dropCoin {
+  0% { transform: translateX(-50%) translateY(0) scale(0.6) rotate(0deg); opacity: 1; }
+  40% { transform: translateX(-50%) translateY(55px) scale(1.1) rotate(180deg); opacity: 1; }
+  60% { transform: translateX(-50%) translateY(40px) scale(0.95) rotate(270deg); opacity: 1; }
+  80% { transform: translateX(-50%) translateY(52px) scale(1.02) rotate(330deg); opacity: 1; }
+  100% { transform: translateX(-50%) translateY(48px) scale(1) rotate(360deg); opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   7. Jelly Button Elastic Reactions
+   -------------------------------------------------------------------------- */
+.jelly-button {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s var(--ease-spring), box-shadow 0.25s ease;
+}
+
+.jelly-button:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+.jelly-button:active {
+  transform: translateY(2px) scale(0.94);
+  transition-duration: 0.08s;
+}
+
+/* Sparkle / Cog particles created on click */
+.click-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  animation: particleFly 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes particleFly {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(0) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. Upvote Jump Effect on Scores
+   -------------------------------------------------------------------------- */
+.score-bounced {
+  animation: scoreBounce 0.4s var(--ease-spring);
+}
+
+@keyframes scoreBounce {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.4) translateY(-4px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+/* --------------------------------------------------------------------------
+   9. New Task Popover Modal
+   -------------------------------------------------------------------------- */
+.whimsical-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 19, 37, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.whimsical-modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.whimsical-modal {
+  background: var(--surface-card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.28s var(--ease-spring);
+  position: relative;
+}
+
+.whimsical-modal-backdrop.open .whimsical-modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.modal-close-btn {
+  font-size: 1.4rem;
+  color: var(--muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background: var(--surface-alt);
+  color: var(--ink);
+}
+
+.modal-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-glow);
+}
+
+.modal-submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--blue);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s var(--ease-spring);
+}
+
+.modal-submit-btn:hover {
+  background: var(--blue-hover);
+  transform: translateY(-2px);
+}

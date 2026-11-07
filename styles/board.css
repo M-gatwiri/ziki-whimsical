@@ -1,0 +1,351 @@
+/* ==========================================================================
+   Hero Interactive Task Board (.th-app)
+   Ziki.dev Whimsical Assembly Line Prototype
+   ========================================================================== */
+
+.th-app {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto 36px;
+  padding: 0 16px;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .th-app {
+    margin: 0 auto 50px;
+    padding: 0 24px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Tabs (.th-tabs)
+   -------------------------------------------------------------------------- */
+.th-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin-left: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.th-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.92rem;
+  font-weight: 500;
+  border-radius: 12px 12px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.th-tab:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.th-tab.active {
+  background: rgba(255, 255, 255, 0.98);
+  color: #0b1733;
+  font-weight: 600;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.th-tab span b {
+  font-weight: 700;
+}
+
+.th-tab span {
+  font-family: var(--font-display);
+}
+
+/* --------------------------------------------------------------------------
+   Board Surface (.th-board)
+   -------------------------------------------------------------------------- */
+.th-board {
+  background: rgba(255, 255, 255, 0.98);
+  color: #0b1733;
+  border-radius: 20px;
+  border-top-left-radius: 4px;
+  padding: 20px 18px 16px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.28);
+  position: relative;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+[data-theme="dark"] .th-board {
+  background: rgba(17, 31, 61, 0.96);
+  color: #f5f7fc;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
+}
+
+@media (min-width: 640px) {
+  .th-board {
+    padding: 24px 28px 20px;
+  }
+}
+
+/* Board Toolbar */
+.th-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.th-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--blue);
+  background: var(--blue-soft);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-spring);
+}
+
+.th-tool:hover {
+  background: var(--blue);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.th-board-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  color: var(--muted);
+}
+
+.th-board-status .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* --------------------------------------------------------------------------
+   Table & Rows
+   -------------------------------------------------------------------------- */
+.th-table {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.th-row {
+  display: grid;
+  grid-template-columns: 56px 1fr 110px 140px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface);
+  transition: background 0.2s ease, transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
+  position: relative;
+}
+
+[data-theme="dark"] .th-row {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+@media (max-width: 680px) {
+  .th-row {
+    grid-template-columns: 50px 1fr auto;
+    padding: 10px 10px;
+    gap: 8px;
+  }
+  .th-head span:nth-child(3),
+  .th-row .th-agents {
+    display: none;
+  }
+}
+
+.th-head {
+  background: transparent !important;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  padding: 4px 14px;
+}
+
+.th-row:not(.th-head):hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(11, 23, 51, 0.08);
+}
+
+[data-theme="dark"] .th-row:not(.th-head):hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Score Pill */
+.th-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--blue);
+  background: var(--blue-soft);
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s var(--ease-spring), background 0.2s ease;
+}
+
+.th-score:hover {
+  transform: scale(1.12);
+}
+
+.th-score:active {
+  transform: scale(0.9);
+}
+
+/* Idea / Task Detail */
+.th-idea {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.th-idea b {
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ink);
+}
+
+.th-idea small {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+/* Agents Working status */
+.th-agents {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.th-agents i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.th-agents-working i {
+  background: #3b82f6;
+  box-shadow: 0 0 6px #3b82f6;
+}
+
+.th-agents-implemented i {
+  background: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+}
+
+.th-agents-queued i {
+  background: #eab308;
+  box-shadow: 0 0 6px #eab308;
+}
+
+/* Action Buttons / Badges */
+.th-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.th-action {
+  font-style: normal;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-spring);
+  user-select: none;
+}
+
+.th-action-review {
+  background: var(--status-review-bg);
+  color: var(--status-review);
+}
+
+.th-action-preview {
+  background: var(--status-preview-bg);
+  color: var(--status-preview);
+}
+
+.th-action-preview:hover {
+  background: #dbeafe;
+  transform: translateY(-2px);
+}
+
+.th-action-approve {
+  background: var(--status-approve-bg);
+  color: var(--status-approve);
+  border: 1px solid rgba(22, 163, 74, 0.3);
+}
+
+.th-action-approve:hover {
+  background: #16a34a;
+  color: #ffffff;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+/* Bottom Showing text */
+.th-showing {
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-align: right;
+  padding-top: 6px;
+}
